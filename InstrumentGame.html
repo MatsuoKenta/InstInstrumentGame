@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>樂器音樂遊戲</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: url('res/babyshark_instrument_bg.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+        }
+        #game {
+            font-size: 3vw;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            padding: 20px;
+        }
+        .instrument {
+            width: 300px;
+            height: auto;
+            margin: 10px;
+            cursor: pointer;
+            font-size: 3vw;
+        }
+        .button {
+          background-color: #04AA6D;
+          border: none;
+          color: white;
+          padding: 20px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 16px;
+          margin: 4px 2px;
+          border-radius: 12px;
+          font-size: 3vw;
+        }
+    </style>
+</head>
+<body>
+
+<div id="game">
+    <h1 >樂器音樂遊戲</h1>
+    <button onclick="playSound()" class="button">播放音樂</button>
+    <div id="options"></div>
+    <div id="result"></div>
+</div>
+
+<script>
+    const instruments = [
+        { name: '鋼琴', sound: 'sounds/piano.mp3', image: 'res/piano_icon.png' },
+        { name: '吉他', sound: 'sounds/guitar.mp3', image: 'res/guitar_icon.png' },
+        { name: '小號', sound: 'sounds/trumpet.mp3', image: 'res/trumpet_icon.png' },
+        { name: '鼓', sound: 'sounds/drum.mp3', image: 'res/drum_icon.png' }
+    ];
+    let audio = new Audio();
+
+    let currentSound;
+
+    function playSound() {
+        // 停止之前的音樂
+        stopPreviousSound();
+
+        // 隨機選擇樂器
+        const randomIndex = Math.floor(Math.random() * instruments.length);
+        currentSound = instruments[randomIndex];
+        
+        // 播放當前音樂
+        audio = new Audio(currentSound.sound);
+        audio.play();
+
+        // 顯示選項
+        showOptions(randomIndex);
+    }
+
+    function stopPreviousSound() {
+        audio.pause();
+        audio.currentTime = 0;
+    }
+
+    function showOptions(correctIndex) {
+        const optionsDiv = document.getElementById('options');
+        optionsDiv.innerHTML = '';
+        instruments.forEach((instrument, index) => {
+            const img = document.createElement('img');
+            img.src = instrument.image;
+            img.alt = instrument.name;
+            img.className = 'instrument';
+            img.onclick = () => checkAnswer(index === correctIndex);
+            optionsDiv.appendChild(img);
+        });
+    }
+
+    function checkAnswer(isCorrect) {
+        const resultDiv = document.getElementById('result');
+        resultDiv.textContent = isCorrect ? '答對了！' : '答錯了，請再試一次！';
+        resultDiv.style.color = isCorrect ? 'green' : 'red';
+        setTimeout(() => resultDiv.textContent = '', 2000);
+    }
+</script>
+
+</body>
+</html>
