@@ -11,7 +11,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: url('res/babyshark_instrument_bg.jpg') no-repeat center center fixed;
+            background: url('res/babyshark_instrument_bg-clean.png') no-repeat center center fixed;
             background-size: cover;
             font-family: Arial, sans-serif;
         }
@@ -23,7 +23,7 @@
             padding: 20px;
         }
         .instrument {
-            width: 300px;
+            width: 20%;
             height: auto;
             margin: 10px;
             cursor: pointer;
@@ -37,17 +37,16 @@
           text-align: center;
           text-decoration: none;
           display: inline-block;
-          font-size: 16px;
+          font-size: 2vw;
           margin: 4px 2px;
           border-radius: 12px;
-          font-size: 3vw;
         }
     </style>
 </head>
 <body>
 
 <div id="game">
-    <h1 >樂器音樂遊戲</h1>
+    <h2 >樂器音樂遊戲</h1>
     <button onclick="playSound()" class="button">播放音樂</button>
     <div id="options"></div>
     <div id="result"></div>
@@ -61,10 +60,13 @@
         { name: '鼓', sound: 'sounds/drum.mp3', image: 'res/drum_icon.png' }
     ];
     let audio = new Audio();
+    let resultDiv = document.getElementById('result');
+    let optionsDiv = document.getElementById('options');
 
     let currentSound;
 
     function playSound() {
+        resultDiv.textContent = '';
         // 停止之前的音樂
         stopPreviousSound();
 
@@ -86,7 +88,6 @@
     }
 
     function showOptions(correctIndex) {
-        const optionsDiv = document.getElementById('options');
         optionsDiv.innerHTML = '';
         instruments.forEach((instrument, index) => {
             const img = document.createElement('img');
@@ -99,11 +100,16 @@
     }
 
     function checkAnswer(isCorrect) {
-        const resultDiv = document.getElementById('result');
         resultDiv.textContent = isCorrect ? '答對了！' : '答錯了，請再試一次！';
         resultDiv.style.color = isCorrect ? 'green' : 'red';
-        setTimeout(() => resultDiv.textContent = '', 2000);
+        if(isCorrect){
+            setTimeout(()=>{
+                optionsDiv.innerHTML = '';
+                resultDiv.textContent = '';
+            },5000);
+        }
     }
+
 </script>
 
 </body>
