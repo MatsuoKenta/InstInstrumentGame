@@ -77,6 +77,10 @@
         // 播放當前音樂
         audio = new Audio(currentSound.sound);
         audio.play();
+		
+		setTimeout(()=>{
+			stopPreviousSound();
+		},4000);
 
         // 顯示選項
         showOptions(randomIndex);
@@ -103,11 +107,16 @@
         resultDiv.textContent = isCorrect ? '答對了！' : '答錯了，請再試一次！';
         resultDiv.style.color = isCorrect ? 'green' : 'red';
         if(isCorrect){
+			audio = new Audio('sounds/bingo.mp3');
+			audio.play();
             setTimeout(()=>{
                 optionsDiv.innerHTML = '';
                 resultDiv.textContent = '';
             },5000);
-        }
+        }else {
+			audio = new Audio('sounds/wrong.wav');
+			audio.play();
+		}
     }
 
 </script>
